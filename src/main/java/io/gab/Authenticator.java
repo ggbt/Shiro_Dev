@@ -8,7 +8,7 @@ public class Authenticator implements org.apache.shiro.authc.Authenticator {
 
   @Override
   public AuthenticationInfo authenticate(AuthenticationToken token) throws AuthenticationException {
-    return null; // not here
+    return null;
   }
   
 }
