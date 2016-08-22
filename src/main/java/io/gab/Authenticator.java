@@ -20,12 +20,12 @@ public class Authenticator implements org.apache.shiro.authc.Authenticator {
     String realmName = "defaultRealm";
     
     // Fake auth
-    if ("admin".equals(user) && "admin".equals(password.toString())) {
+    if ("admin".equals(user) && "admin".equals(new String(password))) {
       ByteSource credentialsSalt = new Sha512Hash(password, salt, 128);
       SimpleAuthenticationInfo authInfo = new SimpleAuthenticationInfo(user, password, credentialsSalt, realmName);
       return authInfo;        
     } else {
-      return null;
+      throw new AuthenticationException();
     }
   }
   
