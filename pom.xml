@@ -9,6 +9,8 @@
 
 	<properties>
 		<shiro.version>1.3.0</shiro.version>
+		<pac4j.version>1.9.1</pac4j.version>
+		<buji.version>1.4.3</buji.version>
 	</properties>
 
 	<dependencies>
@@ -30,7 +32,7 @@
 			<version>3.0.19.Final</version>
 		</dependency>
 
-		<!-- Shiro dependencies: -->
+		<!-- Shiro -->
 		<dependency>
 			<groupId>org.apache.shiro</groupId>
 			<artifactId>shiro-core</artifactId>
@@ -42,12 +44,24 @@
 			<version>${shiro.version}</version>
 		</dependency>
 
+		<!-- Buji -->
+		<dependency>
+      <groupId>io.buji</groupId>
+      <artifactId>buji-pac4j-core</artifactId>
+      <version>${buji.version}</version>
+    </dependency>
+
 		<!-- Pac4j -->
 		<dependency>
-			<groupId>io.buji</groupId>
-			<artifactId>buji-pac4j-core</artifactId>
-			<version>1.4.3</version>
+		    <groupId>org.pac4j</groupId>
+		    <artifactId>pac4j-core</artifactId>
+		    <version>${pac4j.version}</version>
 		</dependency>
+		<dependency>
+      <groupId>org.pac4j</groupId>
+      <artifactId>pac4j-oauth</artifactId>
+      <version>${pac4j.version}</version>
+    </dependency>
 	</dependencies>
 	<build>
 		<finalName>shiro</finalName>

@@ -1,6 +1,6 @@
 package io.gab;
 
-import io.gab.rest.Login;
+import io.gab.rest.Github;
 import io.gab.rest.PrivateInfo;
 import io.gab.rest.PublicInfo;
 
@@ -18,7 +18,7 @@ public class ShiroApp extends Application {
 
     classes.add(PublicInfo.class);
     classes.add(PrivateInfo.class);
-    classes.add(Login.class);
+    classes.add(Github.class);
     
     return classes;
   }
