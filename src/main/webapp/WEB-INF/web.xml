@@ -43,5 +43,7 @@
 		<cookie-config>
 			<name>OXYGEN_JSESSIONID</name>
 		</cookie-config>
+		<!-- Use this to not pass the session token as a url-param when loggin in -->
+		<tracking-mode>COOKIE</tracking-mode>
 	</session-config>
 </web-app>
