@@ -1,8 +1,7 @@
-package io.gab.rest;
+package io.gab.github;
 
 import java.io.IOException;
 import java.net.URI;
-import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.GET;
@@ -11,6 +10,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+
+import org.apache.shiro.SecurityUtils;
 
 import com.github.scribejava.apis.GitHubApi;
 import com.github.scribejava.core.builder.ServiceBuilder;
@@ -35,6 +36,8 @@ public class GithubFlow {
   @Path("/github")
   @Produces(MediaType.TEXT_PLAIN)
   public Response redirectToAuthorization() {
+    // Pass redirect URI here from request.getParameter("redirectUri") somehow. 
+    // To go back to wherever you were when you were redirected to the login page.
     return Response.seeOther(authorizationUrl).build();
   }
   
@@ -43,10 +46,11 @@ public class GithubFlow {
   @Produces(MediaType.TEXT_PLAIN)
   public Response callback(@Context HttpServletRequest request) {
     try {
-      // String requestBody = request.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
       String code = request.getParameter("code");
       
       OAuth2AccessToken accessToken = service.getAccessToken(code);
+      
+      SecurityUtils.getSubject().login(new GithubToken(accessToken, "ggbt", false));
       System.out.println(accessToken);
     } catch (IOException e) {
       // TODO Auto-generated catch block
