@@ -3,7 +3,6 @@ package io.gab.rest;
 import java.io.IOException;
 import java.net.URI;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.GET;
@@ -15,7 +14,6 @@ import javax.ws.rs.core.Response;
 
 import com.github.scribejava.apis.GitHubApi;
 import com.github.scribejava.core.builder.ServiceBuilder;
-import com.github.scribejava.core.extractors.TokenExtractor;
 import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.github.scribejava.core.oauth.OAuth20Service;
 
@@ -28,7 +26,7 @@ public class GithubFlow {
   static OAuth20Service service = new ServiceBuilder()
       .apiKey("87c846572b2b90a28177")
       .apiSecret("68a1acace949dc6c4d3a270805f035f945a2ab25")
-      .callback("http://localhost://8081/shiro/social/callback") // Try oob
+      .callback("http://localhost:8081/shiro/rest/social/callback") // Try oob
       .build(GitHubApi.instance());
   
   static URI authorizationUrl = URI.create(service.getAuthorizationUrl());
@@ -43,18 +41,18 @@ public class GithubFlow {
   @GET
   @Path("/callback")
   @Produces(MediaType.TEXT_PLAIN)
-  public Response authenticate(@Context HttpServletRequest request) {
-    TokenExtractor<OAuth2AccessToken> accessTokenExtractor = service.getApi().getAccessTokenExtractor();
-    
+  public Response callback(@Context HttpServletRequest request) {
     try {
-      String requestBody = request.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
-      OAuth2AccessToken accessToken = accessTokenExtractor.extract(requestBody);
+      // String requestBody = request.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
+      String code = request.getParameter("code");
       
-      // Actually I should be extracting the code to exchange it for an access token here. Do this first thing
+      OAuth2AccessToken accessToken = service.getAccessToken(code);
+      System.out.println(accessToken);
     } catch (IOException e) {
+      // TODO Auto-generated catch block
       e.printStackTrace();
     }
-    
-    return null;
+
+    return Response.seeOther(URI.create("http://localhost:8081/shiro")).build();
   }
 }
