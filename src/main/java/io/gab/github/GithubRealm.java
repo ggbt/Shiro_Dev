@@ -1,5 +1,6 @@
 package io.gab.github;
 
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -15,13 +16,15 @@ import org.apache.shiro.subject.PrincipalCollection;
 public class GithubRealm extends AuthorizingRealm {
 
   public GithubRealm() {
+    // Calling SecurityUtils.getSubject().login() with a token of this class will be handled by this realm. 
     // Maybe have a SocialToken. Looks like I might be able to generalize all of them in a class.
     // The GitHub realm only supports login attempts made with a GithubToken 
-    setAuthenticationTokenClass(GithubToken.class);
+    setAuthenticationTokenClass(AuthenticationToken.class);
   }
   
   @Override
   protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
+    // Called when SecurityUtils.getSubject().isPermitted is called
     Object principal = getAvailablePrincipal(principals);
     
     Set<String> roles = getRolesForPrincipal(principal);

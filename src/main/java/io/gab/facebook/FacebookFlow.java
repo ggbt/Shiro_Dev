@@ -1,4 +1,4 @@
-package io.gab.github;
+package io.gab.facebook;
 
 import java.io.IOException;
 import java.net.URI;
@@ -12,24 +12,23 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.subject.Subject;
 
-import com.github.scribejava.apis.GitHubApi;
+import com.github.scribejava.apis.FacebookApi;
 import com.github.scribejava.core.builder.ServiceBuilder;
 import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.github.scribejava.core.oauth.OAuth20Service;
 
-@Path("/rest/social/github")
-public class GithubFlow {
-  
+@Path("/rest/social/facebook")
+public class FacebookFlow {
+
   /**
    * Login service
    */
   static OAuth20Service service = new ServiceBuilder()
-      .apiKey("GITHUB CLIENT ID")
-      .apiSecret("GITHUB CLIENT SECRET")
-      .callback("http://localhost:8081/shiro/rest/social/github/callback") // Try oob
-      .build(GitHubApi.instance());
+      .apiKey("FACEBOOK CLIENT ID")
+      .apiSecret("FACEBOOK CLIENT SECRET")
+      .callback("http://localhost:8081/shiro/rest/social/facebook/callback") // Try oob
+      .build(FacebookApi.instance());
   
   static URI authorizationUrl = URI.create(service.getAuthorizationUrl());
   
@@ -51,18 +50,12 @@ public class GithubFlow {
       
       OAuth2AccessToken accessToken = service.getAccessToken(code);
       
-      // Using access token get user id. And create an account for that user if it does not exist.
-      // The access token should be telling who this user is. Need to get the user from the database here.
-      // But when getting a user from the database with user and password I might need to create the token manually as well.
-      // Look into how the Principal is created for user-password authentication when using a jdbc realm.
-      
-      SecurityUtils.getSubject().login(new GithubToken(accessToken, "ggbt", false));
+      SecurityUtils.getSubject().login(new FacebookToken(accessToken, "ggbt", false));
       
       boolean permitted = SecurityUtils.getSubject().isPermitted("admin");
       
       System.out.println(accessToken);
     } catch (IOException e) {
-      // TODO Auto-generated catch block
       e.printStackTrace();
     }
 

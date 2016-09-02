@@ -1,5 +1,6 @@
 package io.gab;
 
+import io.gab.facebook.FacebookFlow;
 import io.gab.github.GithubFlow;
 import io.gab.rest.PrivateInfo;
 import io.gab.rest.PublicInfo;
@@ -23,6 +24,7 @@ public class ShiroApp extends Application {
     classes.add(PublicInfo.class);
     classes.add(PrivateInfo.class);
     classes.add(GithubFlow.class);
+    classes.add(FacebookFlow.class);
     
     return classes;
   }
