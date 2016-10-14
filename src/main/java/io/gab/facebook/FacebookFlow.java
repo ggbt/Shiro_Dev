@@ -25,8 +25,8 @@ public class FacebookFlow {
    * Login service
    */
   static OAuth20Service service = new ServiceBuilder()
-      .apiKey("FACEBOOK CLIENT ID")
-      .apiSecret("FACEBOOK CLIENT SECRET")
+      .apiKey("596223327226830")
+      .apiSecret("28027e8309864045e321a398c07c0e74")
       .callback("http://localhost:8081/shiro/rest/social/facebook/callback") // Try oob
       .build(FacebookApi.instance());
   

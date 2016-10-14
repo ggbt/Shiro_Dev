@@ -12,7 +12,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.subject.Subject;
 
 import com.github.scribejava.apis.GitHubApi;
 import com.github.scribejava.core.builder.ServiceBuilder;
@@ -26,8 +25,8 @@ public class GithubFlow {
    * Login service
    */
   static OAuth20Service service = new ServiceBuilder()
-      .apiKey("GITHUB CLIENT ID")
-      .apiSecret("GITHUB CLIENT SECRET")
+      .apiKey("87c846572b2b90a28177")
+      .apiSecret("68a1acace949dc6c4d3a270805f035f945a2ab25")
       .callback("http://localhost:8081/shiro/rest/social/github/callback") // Try oob
       .build(GitHubApi.instance());
   
