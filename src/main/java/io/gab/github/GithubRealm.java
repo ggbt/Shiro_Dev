@@ -19,7 +19,7 @@ public class GithubRealm extends AuthorizingRealm {
     // Calling SecurityUtils.getSubject().login() with a token of this class will be handled by this realm. 
     // Maybe have a SocialToken. Looks like I might be able to generalize all of them in a class.
     // The GitHub realm only supports login attempts made with a GithubToken 
-    setAuthenticationTokenClass(AuthenticationToken.class);
+    setAuthenticationTokenClass(GithubToken.class);
   }
   
   @Override
@@ -38,7 +38,9 @@ public class GithubRealm extends AuthorizingRealm {
   @Override
   protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
     // The principal should be some id which is associated with multiple social accounts.
+    // Check the database to see if the token credentials match (The password)
     return new SimpleAccount(token.getPrincipal(), token.getCredentials(), this.getClass().getName());
+    //return null;
   }
   
   private Set<String> getPermissionsForRoles(Set<String> roles) {
@@ -54,7 +56,7 @@ public class GithubRealm extends AuthorizingRealm {
 
   private Set<String> getRolesForPrincipal(Object principal) {
     Set<String> roles = new HashSet<String>();
-    roles.add("user");
+    roles.add("admin");
     return roles;
   }
 }

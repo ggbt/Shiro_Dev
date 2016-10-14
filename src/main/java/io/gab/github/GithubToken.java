@@ -9,7 +9,7 @@ import com.github.scribejava.core.model.OAuth2AccessToken;
  *
  * @author gabriel_titerlea
  */
-public class GithubToken implements AuthenticationToken, RememberMeAuthenticationToken {
+public class GithubToken implements RememberMeAuthenticationToken {
   /**
    * The github OAuth access token.
    */
