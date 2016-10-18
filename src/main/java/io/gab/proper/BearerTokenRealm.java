@@ -27,7 +27,7 @@ public class BearerTokenRealm extends AuthorizingRealm {
     
     SimpleAuthorizationInfo info = new SimpleAuthorizationInfo(roles);
     info.setStringPermissions(permissions);
-    return null;
+    return info;
   }
 
   @Override

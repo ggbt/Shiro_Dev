@@ -3,13 +3,14 @@ package io.gab.proper;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationToken;
+import org.apache.shiro.subject.support.DefaultSubjectContext;
 import org.apache.shiro.web.filter.authc.AuthenticatingFilter;
 
 public class BearerAuthenticatingFilter extends AuthenticatingFilter {
-
+  
   @Override
   protected boolean isAccessAllowed(ServletRequest request,
       ServletResponse response, Object mappedValue) {
@@ -38,22 +39,16 @@ public class BearerAuthenticatingFilter extends AuthenticatingFilter {
 
   @Override
   protected boolean onAccessDenied(ServletRequest request, ServletResponse response) throws Exception {
-    HttpServletResponse httpServletResponse = (HttpServletResponse) response;
     String authenticationHeader = ((HttpServletRequest) request).getHeader("Authentication");
     
-    if (authenticationHeader == null) {
-      httpServletResponse.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-      // Stop the request here, access denied.
-      return false;
+    if (authenticationHeader != null || true) {
+      // Authentication headers requests should not create sessions.
+      request.setAttribute(DefaultSubjectContext.SESSION_CREATION_ENABLED, Boolean.FALSE);
+      
+      executeLogin(request, response);
     }
     
-    if (!executeLogin(request, response)) {
-      httpServletResponse.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-      // Stop the request here, access denied.
-      return false;
-    }
-    
-    // Allow the request to go to its destination.
+    // Allow the request to go the next filters.
     return true;
   }
 
